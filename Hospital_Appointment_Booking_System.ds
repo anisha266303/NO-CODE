@@ -1,0 +1,2422 @@
+/*
+ * Author       : anisha.p.2024.mech_rajala262
+ * Generated on : 30-Oct-2026 22:42:49
+ * Version      : 1.0
+ */
+ application "Hospital Appointment Booking System"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "America/Los_Angeles"
+ 	time format = "24-hr"
+
+ 	forms
+	{
+		form appointment
+		{
+			displayname = "Appointment"
+			success message = "Appointment Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			appointment_date
+			(
+    			type = date
+				displayname = "Appointment Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			appointment_time
+			(
+    			type = time
+				displayname = "Appointment Time"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			appointment_type
+			(
+				type = picklist
+				displayname = "Appointment Type"
+				values = {"Consultation","Emergency","Follow-up"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			reason_for_visit
+			(
+    			type = textarea
+				displayname = "Reason For Visit"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			appointment_status
+			(
+				type = picklist
+				displayname = "Appointment Status"
+				values = {"Completed","Confirmed","Cancelled","Pending"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			payment_status
+			(
+				type = radiobuttons
+				displayname = "Payment Status"
+				values = {"Paid","Pending"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			booking_date
+			(
+    			type = datetime
+				displayname = "Booking Date"
+				timedisplayoptions = "hh:mm:ss"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			patient
+			(
+				type = picklist	
+				displayname = "Patient"
+				values  = patient.ID
+    			displayformat = [patient_code]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			doctor
+			(
+				type = picklist	
+				displayname = "Doctor"
+				values  = doctor.ID
+    			displayformat = [doctor_code]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			department
+			(
+				type = picklist	
+				displayname = "Department"
+				values  = department.ID
+    			displayformat = [department_code]
+				allow new entries
+				[
+					displayname = "Add New"
+				]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+			blueprint components
+			{
+				stages = {"Appointment Draft","Appointment Pending Review","Appointment Cancelled","Appointment Confirmed","Appointment Rescheduled","Appointment In Progress","Appointment Completed","Appointment On Hold","Appointment Payment Pending","Appointment Closed","Appointment Payment Confirmed","Appointment Payment Failed"}
+			}
+		}
+		form department
+		{
+			displayname = "Department"
+			success message = "Department Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			department_name
+			(
+    			type = text
+				displayname = "Department Name"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			description
+			(
+    			type = textarea
+				displayname = "Description"
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			department_status
+			(
+				type = radiobuttons
+				displayname = "Department Status"
+				values = {"Active","Inactive"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			department_code
+			(
+    			type = text
+				displayname = "Department Code"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form doctor
+		{
+			displayname = "Doctor"
+			success message = "Doctor Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			doctor_name
+			(
+    			type = name
+				displayname = "Doctor Name"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+	     			 visibility = false
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			specialization
+			(
+    			type = text
+				displayname = "Specialization"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			phone_number
+			(
+    			type = phonenumber
+				displayname = "Phone Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			email
+			(
+    			type = email
+				displayname = "Email"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			available_days
+			(
+				type = list	
+				displayname = "Available Days"
+				values = {"Monday","Thursday","Friday","Sunday","Wednesday","Tuesday","Saturday"}
+				height = 13px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			available_from
+			(
+    			type = time
+				displayname = "Available From"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			available_to
+			(
+    			type = time
+				displayname = "Available To"
+				timedisplayoptions = "hh:mm:ss" 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			consultation_fee
+			(
+				displayname = "Consultation Fee"
+				type = USD
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			doctor_status
+			(
+				type = radiobuttons
+				displayname = "Doctor Status"
+				values = {"Active","Inactive"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			doctor_code
+			(
+    			type = text
+				displayname = "Doctor Code"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form patient
+		{
+			displayname = "Patient"
+			success message = "Patient Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			patient_name
+			(
+    			type = name
+				displayname = "Patient Name"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+	     			 visibility = false
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			date_of_birth
+			(
+    			type = date
+				displayname = "Date Of Birth"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			gender
+			(
+				type = picklist
+				displayname = "Gender"
+				values = {"Male","Female","Other"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			phone_number
+			(
+    			type = phonenumber
+				displayname = "Phone Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			email
+			(
+    			type = email
+				displayname = "Email"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			address
+			(
+    			type = address
+				displayname = "Address"
+     			capture_coordinates = true
+     			adjust_using_map = false
+     			address_line_1
+     			(
+	     			  type = address_line_1
+	     			  displayname = "Address Line 1"
+     			) 
+     			address_line_2
+     			(
+	     			  type = address_line_2
+	     			  displayname = "Address Line 2"
+	     			 visibility = false
+     			) 
+     			district_city
+     			(
+	     			  type = district_city
+	     			  displayname = "City / District"
+	     			 visibility = false
+     			) 
+     			state_province
+     			(
+	     			  type = state_province
+	     			  displayname = "State / Province"
+	     			 visibility = false
+     			) 
+     			postal_Code
+     			(
+	     			  type = postal_Code
+	     			  displayname = "Postal Code"
+	     			 visibility = false
+     			) 
+     			country
+     			(
+	     			  type = country
+	     			  displayname = "Country"
+	     			 visibility = false
+     			) 
+     			latitude
+     			(
+	     			  type = latitude
+	     			  displayname = "Latitude"
+	     			 visibility = false
+     			) 
+     			longitude
+     			(
+	     			  type = longitude
+	     			  displayname = "Longitude"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			blood_group
+			(
+				type = picklist
+				displayname = "Blood Group"
+				values = {"A","AB","B","B+","A+","AB+","B-","A-","O+","AB-","O-","O"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			emergency_contact
+			(
+    			type = phonenumber
+				displayname = "Emergency Contact"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			registration_date
+			(
+    			type = date
+				displayname = "Registration Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			patient_code
+			(
+    			type = text
+				displayname = "Patient Code"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		form user_account
+		{
+			displayname = "User Account"
+			success message = "User Account Added Successfully"
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			user_name
+			(
+    			type = name
+				displayname = "User Name"
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+	     			 visibility = false
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			email
+			(
+    			type = email
+				displayname = "Email"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			phone_number
+			(
+    			type = phonenumber
+				displayname = "Phone Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			role
+			(
+				type = picklist
+				displayname = "Role"
+				values = {"Receptionist","Patient","Doctor","Admin"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			account_status
+			(
+				type = radiobuttons
+				displayname = "Account Status"
+				values = {"Active","Inactive"}
+				others option = true
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			user_code
+			(
+    			type = text
+				displayname = "User Code"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+	}
+	reports
+	{
+		list appointment_Report
+		{
+			displayName = "All Appointments"
+			show all rows from appointment    
+			(
+				appointment_date as "Appointment Date"
+				appointment_time as "Appointment Time"
+				appointment_type as "Appointment Type"
+				reason_for_visit as "Reason For Visit"
+				appointment_status as "Appointment Status"
+				payment_status as "Payment Status"
+				booking_date as "Booking Date"
+				patient as "Patient"
+				doctor as "Doctor"
+				department as "Department"
+			)
+			conditional formatting
+			(
+				"New Formatting1"
+				{
+				condition = (appointment_status == "Cancelled")
+				fields = [appointment_status]
+				format = "color:#ffffff;background-color:#765f89;"
+				}
+				"New Formatting2"
+				{
+				condition = (appointment_status == "Confirmed")
+				fields = [appointment_status]
+				format = "color:#000000;background-color:#1bbc9b;"
+				}
+				"New Formatting3"
+				{
+				condition = (appointment_status == "Pending")
+				fields = [appointment_status]
+				format = "color:#ffffff;background-color:#e84c3d;"
+				}
+			)
+		}
+		kanban appointment_by_appointment_status
+		{
+			displayName = "Appointment Statuses"
+			show all rows from appointment    
+			(
+				appointment_date as "Appointment Date"
+				appointment_time as "Appointment Time"
+				appointment_type as "Appointment Type"
+				reason_for_visit as "Reason For Visit"
+				appointment_status as "Appointment Status"
+				payment_status as "Payment Status"
+				booking_date as "Booking Date"
+				patient as "Patient"
+				doctor as "Doctor"
+				department as "Department"
+			)
+			options
+			(
+	 			display field = appointment_status
+	 		)
+		}
+		list patient_Report
+		{
+			displayName = "All Patients"
+			show all rows from patient    
+			(
+				patient_name  as "Patient Name"
+				date_of_birth as "Date Of Birth"
+				gender as "Gender"
+				phone_number as "Phone Number"
+				email as "Email"
+				address  as "Address"
+	 			(
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				blood_group as "Blood Group"
+				emergency_contact as "Emergency Contact"
+				registration_date as "Registration Date"
+				patient_code as "Patient Code"
+			)
+			conditional formatting
+			(
+				"New Formatting1"
+				{
+				condition = (gender == "Female")
+				fields = [gender]
+				format = "color:#ffffff;background-color:#765f89;"
+				}
+				"New Formatting2"
+				{
+				condition = (gender == "Male")
+				fields = [gender]
+				format = "color:#000000;background-color:#1bbc9b;"
+				}
+				"New Formatting3"
+				{
+				condition = (gender == "Other")
+				fields = [gender]
+				format = "color:#ffffff;background-color:#e84c3d;"
+				}
+			)
+		}
+		kanban patient_by_gender
+		{
+			displayName = "Genders"
+			show all rows from patient    
+			(
+				patient_name  as "Patient Name"
+				date_of_birth as "Date Of Birth"
+				gender as "Gender"
+				phone_number as "Phone Number"
+				email as "Email"
+				address  as "Address"
+	 			(
+	      			enable = Link_to_Map,Show_As_Text
+	 			)
+				blood_group as "Blood Group"
+				emergency_contact as "Emergency Contact"
+				registration_date as "Registration Date"
+				patient_code as "Patient Code"
+			)
+			options
+			(
+	 			display field = gender
+	 		)
+		}
+		list department_Report
+		{
+			displayName = "All Departments"
+			show all rows from department    
+			(
+				department_name as "Department Name"
+				description as "Description"
+				department_status as "Department Status"
+				department_code as "Department Code"
+			)
+		}
+		list doctor_Report
+		{
+			displayName = "All Doctors"
+			show all rows from doctor    
+			(
+				doctor_name  as "Doctor Name"
+				specialization as "Specialization"
+				phone_number as "Phone Number"
+				email as "Email"
+				available_days as "Available Days"
+				available_from as "Available From"
+				available_to as "Available To"
+				consultation_fee as "Consultation Fee"
+				(
+					display = total,average,min,max	
+				)
+				doctor_status as "Doctor Status"
+				doctor_code as "Doctor Code"
+			)
+		}
+		list user_account_Report
+		{
+			displayName = "All User Accounts"
+			show all rows from user_account    
+			(
+				user_name  as "User Name"
+				email as "Email"
+				phone_number as "Phone Number"
+				role as "Role"
+				account_status as "Account Status"
+				user_code as "User Code"
+			)
+			conditional formatting
+			(
+				"New Formatting1"
+				{
+				condition = (role == "Patient")
+				fields = [role]
+				format = "color:#ffffff;background-color:#765f89;"
+				}
+				"New Formatting2"
+				{
+				condition = (role == "Receptionist")
+				fields = [role]
+				format = "color:#000000;background-color:#1bbc9b;"
+				}
+			)
+		}
+		kanban user_account_by_role
+		{
+			displayName = "Roles"
+			show all rows from user_account    
+			(
+				user_name  as "User Name"
+				email as "Email"
+				phone_number as "Phone Number"
+				role as "Role"
+				account_status as "Account Status"
+				user_code as "User Code"
+			)
+			options
+			(
+	 			display field = role
+	 		)
+		}
+	}
+	pages
+	{
+		page DashBoard
+		{
+			displayname = "Dashboard"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 1'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#F97164'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '20px'\n\tpaddingLeft = '20px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '64%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '0px' \n\tmarginTop = '8px'\n\tcolor = '#FFFFFF'\n\tsize = '24px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tdecimalPlaces = '2'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t  value = 'thisapp.doctor.consultation_fee.sum'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '0px'\n\tmarginRight = '8px' \n\tmarginTop = '0px'\n\tcolor = '#FFFFFF'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Total Consultation Fees'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '36%'\n\t\thAlign = 'right'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#C75A50'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'shopping-cash-register'\n\tsize = '22px'\n\tcornerRadius = '10px'\n\ticonType = 'outline'\n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='24%'\n   \t>\n\t<panel elementName='Panel 2'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#EEA131'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '20px'\n\tpaddingLeft = '20px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '65%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '24px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t  value = 'thisapp.appointment.ID.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Total Appointments'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '35%'\n\t\thAlign = 'right'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '10px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#BE8127'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'travel-world'\n\tsize = '22px'\n\tcornerRadius = '10px'\n\ticonType = 'outline'\n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel 3'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#00CFA9'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '20px'\n\tpaddingLeft = '20px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '65%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '24px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'transparent'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t  value = 'thisapp.patient.ID.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Total Patients'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '35%'\n\t\thAlign = 'right'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '10px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#0BA385'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'travel-world'\n\tsize = '22px'\n\tcornerRadius = '10px'\n\ticonType = 'outline'\n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='26%'\n   \t>\n\t<panel elementName='Panel 4'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#3E99DE'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpaddingTop = '20px'\n\tpaddingLeft = '20px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '65%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\tpadding = '5px'\n\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '24px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t  value = 'thisapp.department.ID.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tcolor = '#FFFFFF'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Total Departments'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '35%'\n\t\thAlign = 'right'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '10px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#0E78C9'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'business-hierarchy-53'\n\tsize = '22px'\n\tcornerRadius = '10px'\n\ticonType = 'outline'\n/>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<panel elementName='Grouped_Panel 1'\n \n\t\n\ttitle = 'Appointment Type'\n\t\n\t\ttitleSize = '15px'\n            boldTitle = 'true'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '0px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '100%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '25%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#F97164'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'users-2-wc'\n\tsize = '22px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\tpaddingLeft = '10px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginBottom = '0px'\n\tcolor = '#C75A50'\n\tsize = '28px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t\tcriteria = 'appointment_type == &quot;Consultation&quot;'\n\t  value = 'thisapp.appointment.appointment_type.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Consultations'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = '#FFFFFF'\n\n\t\twidth = '25%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#EEA131'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'weather-hurricane-45'\n\tsize = '22px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\tpaddingLeft = '10px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tcolor = '#BE8127'\n\tsize = '28px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t\tcriteria = 'appointment_type == &quot;Emergency&quot;'\n\t  value = 'thisapp.appointment.appointment_type.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginTop = '0px'\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Emergencies'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '25%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#00CFA9'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'media-2-music-album'\n\tsize = '22px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\tpaddingLeft = '10px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tcolor = '#0BA385'\n\tsize = '28px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t\tcriteria = 'appointment_type == &quot;Follow-up&quot;'\n\t  value = 'thisapp.appointment.appointment_type.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginTop = '0px'\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Follow-up'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc><pc \n\t\tpadding = '20px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\twidth = '25%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginBottom = '0px'\n\tmarginTop = '0px'\n\n\tcolor = '#FFFFFF'\n\tbgColor = '#3E99DE'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'travel-world'\n\tsize = '22px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\tpaddingLeft = '10px'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\t\thAlign = 'left'\n>\n\t<pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tcolor = '#0E78C9'\n\tsize = '28px'\n\tbold = 'true' \n\ttype = 'Form Data'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\tdisplayType = 'actual'\n\tthousandsSeperator = 'LOCALE'\n\tdecimalSeperator = 'DOT'\n\tnumberScale = 'none'\n\n\n\n\n\t  value = 'thisapp.appointment.appointment_type.count'\n>\n</text>\n\n</pc>\n</pr><pr \n\t>\n\t<pc \n\t\n>\n\t<text \n\n\tmarginLeft = '10px'\n\tmarginRight = '0px' \n\tmarginTop = '0px'\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Total'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='24%'\n   \t>\n\t<panel elementName='Panel_Button 1'\n \n\t\n\ttitle = 'Quick Links'\n\t\n\t\ttitleSize = '15px'\n            boldTitle = 'true'\n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#CB6711'\n\n\t\twidth = '2%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t\n</pc>\n</pr>\n</pc><pc \n\t\tpaddingTop = '10px'\n\tpaddingLeft = '0px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '10px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'appointment'\n\t\ttarget = 'new-window'\n\t\twidth = '98%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '6px' \n\n\tcolor = '#3F3F3F'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-square-add-08'\n\tsize = '14px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\n>\n\t<text \n\n\tcolor = '#595959'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Add New Appointment'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='27%'\n   \t>\n\t<panel elementName='Panel_Button 2'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#CB6711'\n\n\t\twidth = '2%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t\n</pc>\n</pr>\n</pc><pc \n\t\tpaddingTop = '10px'\n\tpaddingLeft = '0px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '10px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'patient'\n\t\ttarget = 'new-window'\n\t\twidth = '98%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '6px' \n\n\tcolor = '#3F3F3F'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-square-add-08'\n\tsize = '14px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\n>\n\t<text \n\n\tcolor = '#3F3F3F'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Add New Patient'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='25%'\n   \t>\n\t<panel elementName='Panel_Button 3'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#CB6711'\n\n\t\twidth = '2%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t\n</pc>\n</pr>\n</pc><pc \n\t\tpaddingTop = '10px'\n\tpaddingLeft = '0px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '10px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'department'\n\t\ttarget = 'new-window'\n\t\twidth = '98%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '6px' \n\n\tcolor = '#3F3F3F'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-square-add-08'\n\tsize = '14px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\n>\n\t<text \n\n\tcolor = '#3F3F3F'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Add New Department'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column><column\n   \t\t width='24%'\n   \t>\n\t<panel elementName='Panel_Button 4'\n \n >\n\t<pr \n\t\t\twidth='fill'\n\t\theight='fill'\n>\n\t<pc \n\t\tbgColor = '#CB6711'\n\n\t\twidth = '2%'\n\t\thAlign = 'left'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t\n</pc>\n</pr>\n</pc><pc \n\t\tpaddingTop = '10px'\n\tpaddingLeft = '0px'\n\tpaddingRight = '0px'\n\tpaddingBottom = '10px'\n\tbgColor = '#FFFFFF'\n\n    action = 'OpenForm'\n\t\tcomponentLinkName = 'doctor'\n\t\ttarget = 'new-window'\n\t\twidth = '98%'\n\t\thAlign = 'center'\n\t\tvAlign = 'middle'\n>\n\t<pr \n\t\t\twidth='auto'\n\t\theight='auto'\n>\n\t<pc \n\t\n>\n\t<image  \n\t\tmarginLeft = '0px'\n\tmarginRight = '6px' \n\n\tcolor = '#3F3F3F'\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\twidth = '40px'\n\theight = '40px'\n\ttype = 'icon'\n\tvalue = 'ui-2-square-add-08'\n\tsize = '14px'\n\tcornerRadius = '20px'\n\ticonType = 'outline'\n/>\n</pc><pc \n\t\n>\n\t<text \n\n\tcolor = '#3F3F3F'\n\tsize = '14px'\n\ttype = 'Text'\n\n\tbgColor = 'rgba(0, 0, 0, 0)'\n\n\n\n\n\n\n\t  value = 'Add New Doctor'\n>\n</text>\n\n</pc>\n</pr>\n</pc>\n</pr>\n</panel>\n</column>\n</row><row>\n\t<column\n   \t\t width='50%'\n   \t>\n\t<chart \n\telementName='Chart 1'\n\n\t\n\ttitle = 'Distribution by Patient'\n\t\n\t\ttitleSize = '16px'\n\ttype = 'Bar'\n\txtitle = 'Patient'\n\tytitle = 'Count of Patient'\n\tbgColor = 'rgb(255, 255, 255)'\n\ttheme = '#f37d16'\n\tlegendPos = 'none'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'appointment'\n\txfield = 'patient.patient_code'\n\tyfields = 'count:patient'\n\tgroupBy = 'appointment_date'\n\t\tDelugeCriteria = 'patient.patient_code is not null'\n/>\n\n</column><column\n   \t\t width='50%'\n   \t>\n\t<chart \n\telementName='Chart 2'\n\n\t\n\ttitle = 'Distribution by Payment Status'\n\t\n\t\ttitleSize = '16px'\n\ttype = 'Pie'\n\txtitle = 'Payment Status'\n\tytitle = 'Payment Status'\n\tbgColor = 'rgb(255, 255, 255)'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\theightType = 'auto'\n\theightValue = '300px'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'appointment'\n\txfield = 'payment_status'\n\tyfields = 'count:payment_status'\n\tgroupBy = 'appointment_date'\n\t\tDelugeCriteria = 'payment_status is not null &amp;&amp; payment_status != &quot;&quot;'\n/>\n\n</column>\n</row><row>\n\t<column\n   \t\t width='100%'\n   \t>\n\t<report \n\telementName='Report'\n\n\t\tappLinkName = 'thisapp'\n\t\tlinkName = 'appointment_Report'\n\t\n\t\tiszreport = 'false'\n\t\t\t\t\tzc_AddRec = 'false'\n\t\t\t\t\tzc_EditRec = 'false'\n\t\t\t\t\tzc_Print = 'false'\n\t\t\t\t\tzc_Export = 'false'\n\t\t\t\t\tzc_DelRec = 'false'\n\t\t\t\t\tzc_DuplRec = 'false'\n\t\t\t\t\tzc_Search = 'false'\n\t\t\t\t\tzc_EditBulkRec = 'false'\n\t\t\t\t\tzc_BulkDelete = 'false'\n\t\t\t\t\tzc_BulkDuplicate = 'false'\n\theightType = 'auto'\n\theightValue = '700'\n/>\n</column>\n</row>\n</layout>\n</zml>"
+		}
+	}
+
+
+
+
+		workflow
+		{
+		form
+		{
+			auto_generate_patient_code as "Auto-Generate Patient Code"
+			{
+				type =  form
+				form = patient
+
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Auto-generate unique patient code upon new registration
+										if(input.ID.isNull())
+										{
+											// Fetch the last patient record to get the latest patient code
+											lastPatient = patient[ID != 0] sort by ID range from 0 to 1;
+											if(lastPatient.count() > 0)
+											{
+												// Extract the numeric part from the last patient code
+												lastCode = lastPatient.patient_code;
+												lastCodeNumber = lastCode.replaceAll("PAT-","").toLong();
+												newCodeNumber = lastCodeNumber + 1;
+											}
+											else
+											{
+												// Start from 1 if no records exist
+												newCodeNumber = 1;
+											}
+											// Format the new patient code with leading zeros (e.g., PAT-0001)
+											codeStr = newCodeNumber.toString();
+											paddedCode = "";
+											if(codeStr.length() < 4)
+											{
+												paddingLength = 4 - codeStr.length();
+												for each  i in List:Float()
+												{
+													paddedCode = paddedCode.concat("0");
+												}
+												paddedCode = paddedCode.concat(codeStr);
+											}
+											else
+											{
+												paddedCode = codeStr;
+											}
+											// Set the patient code field
+											input.patient_code = "PAT-".concat(paddedCode);
+										}
+						)
+					}
+				}
+
+			}
+			send_appointment_confirmation as "Send Appointment Confirmation"
+			{
+				type =  form
+				form = appointment
+
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Fetch patient details using the lookup field
+										patientRecord = patient[ID == input.patient];
+										// Validate patient email exists
+										if(patientRecord.email.isNull())
+										{
+											success message "Patient email not found. Booking confirmed but no email sent.";
+										}
+										else
+										{
+											// Get doctor details for confirmation
+											doctorRecord = doctor[ID == input.doctor];
+											// Format doctor name
+											doctorName = "";
+											if(doctorRecord.doctor_name.prefix != null && !doctorRecord.doctor_name.prefix.isEmpty())
+											{
+												doctorName = doctorName.concat(doctorRecord.doctor_name.prefix).concat(" ");
+											}
+											if(doctorRecord.doctor_name.first_name != null && !doctorRecord.doctor_name.first_name.isEmpty())
+											{
+												doctorName = doctorName.concat(doctorRecord.doctor_name.first_name).concat(" ");
+											}
+											if(doctorRecord.doctor_name.last_name != null && !doctorRecord.doctor_name.last_name.isEmpty())
+											{
+												doctorName = doctorName.concat(doctorRecord.doctor_name.last_name);
+											}
+											// Format patient name
+											patientName = "";
+											if(patientRecord.patient_name.prefix != null && !patientRecord.patient_name.prefix.isEmpty())
+											{
+												patientName = patientName.concat(patientRecord.patient_name.prefix).concat(" ");
+											}
+											if(patientRecord.patient_name.first_name != null && !patientRecord.patient_name.first_name.isEmpty())
+											{
+												patientName = patientName.concat(patientRecord.patient_name.first_name).concat(" ");
+											}
+											if(patientRecord.patient_name.last_name != null && !patientRecord.patient_name.last_name.isEmpty())
+											{
+												patientName = patientName.concat(patientRecord.patient_name.last_name);
+											}
+											// Format appointment date
+											appointmentDateStr = input.appointment_date.toString("dd MMMM yyyy");
+											// Format appointment time
+											appointmentTimeStr = input.appointment_time.toString("hh:mm a");
+											// Send confirmation email
+											sendmail
+											[
+												from :zoho.loginuserid
+												to :patientRecord.email
+												subject :"Appointment Confirmation - " + patientName
+												message :"Dear " + patientName + ",\n\nYour appointment has been successfully booked.\n\nAppointment Details:\nDoctor: " + doctorName + "\nDate: " + appointmentDateStr + "\nTime: " + appointmentTimeStr + "\nType: " + input.appointment_type + "\n\nReason for Visit:\n" + input.reason_for_visit + "\n\nWe look forward to seeing you.\n\nBest regards,\nHospital Appointment Booking System"
+											]
+											success message "Appointment booked successfully. Confirmation email sent to " + patientRecord.email;
+										}
+						)
+					}
+				}
+
+			}
+		}
+
+		schedule
+		{
+			daily_doctor_schedule_reminder as "Daily Doctor Schedule Reminder"
+			{
+				type =  schedule
+				form = appointment
+					status = inactive
+				start = appointment_date at "10:00:00"
+				time zone = "Asia/Kolkata"
+				on start
+				{
+					actions 
+					{
+					on load
+					(
+						// Fetch appointments scheduled for today with pending status
+										appointments = appointment[appointment_date == zoho.currentdate && appointment_status == "Pending"];
+										// Iterate through each appointment and send notification to the doctor
+										for each  appointment in appointments
+										{
+											// Get doctor details from the lookup field
+											doctorRecord = doctor[ID == appointment.doctor];
+											// Check if doctor email is valid
+											if(doctorRecord.email.isNull() == false)
+											{
+												// Construct the appointment details
+												patientName = appointment.patient.patient_name.first_name.concat(" ").concat(appointment.patient.patient_name.last_name);
+												appointmentTime = appointment.appointment_time.toString();
+												appointmentDate = appointment.appointment_date.toString();
+												reason = appointment.reason_for_visit;
+												// Send email notification to the doctor
+												sendmail
+												[
+													from :zoho.loginuserid
+													to :doctorRecord.email
+													subject :"Upcoming Appointment Reminder - " + appointmentDate
+													message :"Dear " + doctorRecord.doctor_name.first_name + ",\n\nYou have an upcoming appointment scheduled for " + appointmentDate + " at " + appointmentTime + ".\n\nPatient Details:\nName: " + patientName + "\nReason for Visit: " + reason + "\n\nPlease ensure you are available for this appointment.\n\nThank you,\nHospital Appointment Booking System"
+												]
+											}
+										}
+					)
+					}
+				}
+			}
+		}
+
+
+		blueprint
+		{
+    			appointment_scheduling_process as "Appointment Scheduling Process"
+    			{
+        			type = Blueprint
+        			form = appointment
+        			start
+        			{
+        			}
+        			stages
+        			{
+           			"Appointment Draft"
+           			{
+           			}
+           			"Appointment Pending Review"
+           			{
+           			}
+           			"Appointment Cancelled"
+           			{
+           			}
+           			"Appointment Confirmed"
+           			{
+           			}
+           			"Appointment Rescheduled"
+           			{
+           			}
+           			"Appointment In Progress"
+           			{
+           			}
+           			"Appointment Completed"
+           			{
+           			}
+           			"Appointment On Hold"
+           			{
+           			}
+           			"Appointment Payment Pending"
+           			{
+           			}
+           			"Appointment Closed"
+           			{
+           			}
+           			"Appointment Payment Confirmed"
+           			{
+           			}
+           			"Appointment Payment Failed"
+           			{
+           			}
+        			}
+        			transitions
+        			{
+        			}
+    			}
+		}
+
+
+	}
+	share_settings
+	{
+			"Receptionist"
+			{
+				name = "Receptionist"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Register new patients and verify their personal details and emergency contacts \n"
+				ModulePermissions
+				{
+					patient
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							patient_by_gender={"View","Edit","Delete"}
+							patient_Report={"View","Edit","Delete"}
+						}
+					}
+					appointment
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							appointment_by_appointment_status={"View","Edit","Delete"}
+							appointment_Report={"View","Edit","Delete"}
+						}
+					}
+				}
+			}
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Department Administrator"
+			{
+				name = "Department Administrator"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Create and manage department profiles including descriptions and status \n"
+				ModulePermissions
+				{
+					doctor
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							doctor_Report={"View","Edit","Delete"}
+						}
+					}
+					appointment
+					{
+						enabled= Viewall,Export 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							appointment_by_appointment_status={"View"}
+							appointment_Report={"View"}
+						}
+					}
+					department
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							department_Report={"View","Edit","Delete"}
+						}
+					}
+					patient
+					{
+						enabled= Viewall,Export 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							patient_by_gender={"View"}
+							patient_Report={"View"}
+						}
+					}
+				}
+			}
+			"Developer"
+			{
+				name = "Developer"
+				type = Developer
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Developer Profile\n"
+			}
+			"Doctor"
+			{
+				name = "Doctor"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Update personal availability schedules and consultation fees \n"
+				ModulePermissions
+				{
+					doctor
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							doctor_Report={"View","Edit","Delete"}
+						}
+					}
+					appointment
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							appointment_by_appointment_status={"View","Edit","Delete"}
+							appointment_Report={"View","Edit","Delete"}
+						}
+					}
+					patient
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							patient_by_gender={"View","Edit","Delete"}
+							patient_Report={"View","Edit","Delete"}
+						}
+					}
+				}
+			}
+			"System Administrator"
+			{
+				name = "System Administrator"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Manage user accounts, assign roles, and control access permissions \n"
+				ModulePermissions
+				{
+					doctor
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							doctor_Report={"View","Edit","Delete"}
+						}
+					}
+					appointment
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							appointment_by_appointment_status={"View","Edit","Delete"}
+							appointment_Report={"View","Edit","Delete"}
+						}
+					}
+					user_account
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							user_account_Report={"View","Edit","Delete"}
+							user_account_by_role={"View","Edit","Delete"}
+						}
+					}
+					department
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							department_Report={"View","Edit","Delete"}
+						}
+					}
+					patient
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							patient_by_gender={"View","Edit","Delete"}
+							patient_Report={"View","Edit","Delete"}
+						}
+					}
+				}
+			}
+			"Emergency Contact"
+			{
+				name = "Emergency Contact"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Receive notifications regarding patient appointments and status updates \n"
+				ModulePermissions
+				{
+					patient
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							patient_by_gender={"View"}
+							patient_Report={"View"}
+						}
+					}
+				}
+			}
+			"Patient"
+			{
+				name = "Patient"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Register personal information and update contact details \n"
+				ModulePermissions
+				{
+					patient
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							patient_by_gender={"View","Edit","Delete"}
+							patient_Report={"View","Edit","Delete"}
+						}
+					}
+					appointment
+					{
+						enabled= Create,Viewall,Modifyall,Import,Export,Tab 
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							appointment_by_appointment_status={"View","Edit","Delete"}
+							appointment_Report={"View","Edit","Delete"}
+						}
+					}
+				}
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+				}
+			}
+	}
+
+
+	web
+	{
+		forms
+		{
+			form appointment
+			{
+				label placement = left
+			}
+			form department
+			{
+				label placement = left
+			}
+			form doctor
+			{
+				label placement = left
+			}
+			form patient
+			{
+				label placement = left
+			}
+			form user_account
+			{
+				label placement = left
+			}
+		}
+		reports
+		{
+			report appointment_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment_date as "Appointment Date"
+								appointment_time as "Appointment Time"
+								appointment_type as "Appointment Type"
+								reason_for_visit as "Reason For Visit"
+								appointment_status as "Appointment Status"
+								payment_status as "Payment Status"
+								booking_date as "Booking Date"
+								patient as "Patient"
+								doctor as "Doctor"
+								department as "Department"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								appointment_date as "Appointment Date"
+								appointment_time as "Appointment Time"
+								appointment_type as "Appointment Type"
+								reason_for_visit as "Reason For Visit"
+								appointment_status as "Appointment Status"
+								payment_status as "Payment Status"
+								booking_date as "Booking Date"
+								patient as "Patient"
+								doctor as "Doctor"
+								department as "Department"
+							)
+						)
+						datablock2
+						(
+		     				title = "Department"
+		     				related field = department
+							fields
+							(
+								department_name as "Department Name"
+								description as "Description"
+								department_status as "Department Status"
+								department_code as "Department Code"
+							)
+						)
+						datablock3
+						(
+		     				title = "Patient"
+		     				related field = patient
+							fields
+							(
+								patient_name as "Patient Name"
+								date_of_birth as "Date Of Birth"
+								gender as "Gender"
+								phone_number as "Phone Number"
+								email as "Email"
+								address as "Address"
+								blood_group as "Blood Group"
+								emergency_contact as "Emergency Contact"
+								registration_date as "Registration Date"
+								patient_code as "Patient Code"
+							)
+						)
+						datablock4
+						(
+		     				title = "Doctor"
+		     				related field = doctor
+							fields
+							(
+								doctor_name as "Doctor Name"
+								specialization as "Specialization"
+								phone_number as "Phone Number"
+								email as "Email"
+								available_days as "Available Days"
+								available_from as "Available From"
+								available_to as "Available To"
+								consultation_fee as "Consultation Fee"
+								doctor_status as "Doctor Status"
+								doctor_code as "Doctor Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report appointment_by_appointment_status
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = 1
+							fields
+							(
+								appointment_date as "Appointment Date"
+								appointment_time as "Appointment Time"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								appointment_date as "Appointment Date"
+								appointment_time as "Appointment Time"
+								appointment_type as "Appointment Type"
+								reason_for_visit as "Reason For Visit"
+								appointment_status as "Appointment Status"
+								payment_status as "Payment Status"
+								booking_date as "Booking Date"
+								patient as "Patient"
+								doctor as "Doctor"
+								department as "Department"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report patient_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								patient_name as "Patient Name"
+								date_of_birth as "Date Of Birth"
+								gender as "Gender"
+								phone_number as "Phone Number"
+								email as "Email"
+								address as "Address"
+								blood_group as "Blood Group"
+								emergency_contact as "Emergency Contact"
+								registration_date as "Registration Date"
+								patient_code as "Patient Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								patient_name as "Patient Name"
+								date_of_birth as "Date Of Birth"
+								gender as "Gender"
+								phone_number as "Phone Number"
+								email as "Email"
+								address as "Address"
+								blood_group as "Blood Group"
+								emergency_contact as "Emergency Contact"
+								registration_date as "Registration Date"
+								patient_code as "Patient Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report patient_by_gender
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = 1
+							fields
+							(
+								patient_name as "Patient Name"
+								patient_code as "Patient Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								patient_name as "Patient Name"
+								date_of_birth as "Date Of Birth"
+								gender as "Gender"
+								phone_number as "Phone Number"
+								email as "Email"
+								address as "Address"
+								blood_group as "Blood Group"
+								emergency_contact as "Emergency Contact"
+								registration_date as "Registration Date"
+								patient_code as "Patient Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report department_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								department_name as "Department Name"
+								description as "Description"
+								department_status as "Department Status"
+								department_code as "Department Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								department_name as "Department Name"
+								description as "Description"
+								department_status as "Department Status"
+								department_code as "Department Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report doctor_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								doctor_name as "Doctor Name"
+								specialization as "Specialization"
+								phone_number as "Phone Number"
+								email as "Email"
+								available_days as "Available Days"
+								available_from as "Available From"
+								available_to as "Available To"
+								consultation_fee as "Consultation Fee"
+								doctor_status as "Doctor Status"
+								doctor_code as "Doctor Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								doctor_name as "Doctor Name"
+								specialization as "Specialization"
+								phone_number as "Phone Number"
+								email as "Email"
+								available_days as "Available Days"
+								available_from as "Available From"
+								available_to as "Available To"
+								consultation_fee as "Consultation Fee"
+								doctor_status as "Doctor Status"
+								doctor_code as "Doctor Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report user_account_Report
+			{
+				quickview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								user_name as "User Name"
+								email as "Email"
+								phone_number as "Phone Number"
+								role as "Role"
+								account_status as "Account Status"
+								user_code as "User Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+		     				title = "Overview"
+							fields
+							(
+								user_name as "User Name"
+								email as "Email"
+								phone_number as "Phone Number"
+								role as "Role"
+								account_status as "Account Status"
+								user_code as "User Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+			report user_account_by_role
+			{
+				quickview
+				(
+					layout
+					(
+		 				type = 1
+						datablock1
+						(
+							layout type = 1
+							fields
+							(
+								user_name as "User Name"
+								user_code as "User Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+								Add 
+								Import 
+								Export 
+							)
+						record
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+    					)
+						)
+    				action
+    				(
+						on click
+						(
+							View Record   	   
+    					)
+						on right click
+						(
+							Edit   	   
+							Duplicate   	   
+							Delete   	   
+							Print   	   
+							View Record   	   
+    					)
+     				)
+				)
+
+				detailview
+				(
+					layout
+					(
+						datablock1
+						(
+							fields
+							(
+								user_name as "User Name"
+								email as "Email"
+								phone_number as "Phone Number"
+								role as "Role"
+								account_status as "Account Status"
+								user_code as "User Code"
+							)
+						)
+					)
+						menu
+						(
+							header
+							(
+								Edit 
+								Duplicate 
+								Delete 
+								Print 
+							)
+						)
+				)
+			}
+		}
+		menu
+		{
+			space Space
+			{
+				displayname = "Space"
+				icon = "objects-spaceship"
+
+				section Section_1
+				{
+					displayname = "Dashboard"
+					icon = "ui-1-dashboard-half"
+					page DashBoard
+					{
+						icon = "ui-1-dashboard-half"
+					}
+				}
+				section Section_2
+				{
+					displayname = "Appointments"
+					icon = "ui-1-calendar-grid-61"
+					form  appointment
+					{
+						icon = "ui-1-bold-add"
+					}
+					report appointment_Report
+					{
+						icon = "travel-world"
+					}
+					report appointment_by_appointment_status
+					{
+						icon = "location-appointment"
+					}
+				}
+				section Section_3
+				{
+					displayname = "Patients"
+					icon = "food-candy"
+					form  patient
+					{
+						icon = "ui-1-bold-add"
+					}
+					report patient_Report
+					{
+						icon = "travel-world"
+					}
+					report patient_by_gender
+					{
+						icon = "design-2-selection"
+					}
+				}
+				section Section_4
+				{
+					displayname = "Departments"
+					icon = "business-hierarchy-53"
+					form  department
+					{
+						icon = "ui-1-bold-add"
+					}
+					report department_Report
+					{
+						icon = "business-hierarchy-53"
+					}
+				}
+				section Section_5
+				{
+					displayname = "Doctors"
+					icon = "health-bag-49"
+					form  doctor
+					{
+						icon = "ui-1-bold-add"
+					}
+					report doctor_Report
+					{
+						icon = "travel-world"
+					}
+				}
+				section Section_6
+				{
+					displayname = "User Accounts"
+					icon = "users-2-woman"
+					form  user_account
+					{
+						icon = "ui-1-bold-add"
+					}
+					report user_account_Report
+					{
+						icon = "travel-world"
+					}
+					report user_account_by_role
+					{
+						icon = "media-1-play-69"
+					}
+				}
+				section ZC_App_Preferences
+				{
+					displayname = "App Preferences"
+					icon = "design-app"
+					systemcomponent
+					{
+						type = localization
+						displayname = "Language Selection"
+						icon = "education-language"
+					}
+					systemcomponent
+					{
+						type = connection
+						displayname = "Integrations"
+						icon = "tech-2-connection"
+					}
+				}
+				section ZC_Approvals
+				{
+					displayname = "Approvals"
+					icon = "ui-2-hourglass"
+					systemcomponent
+					{
+						type = approval
+						approval status = pending
+						displayname = "Pending Tasks"
+						icon = "ui-2-hourglass"
+					}
+					systemcomponent
+					{
+						type = approval
+						approval status = completed
+						displayname = "Completed Tasks"
+						icon = "design-todo"
+					}
+				}
+				section SharedAnalytics_Section
+				{
+					type = shared_user_report_section
+					displayname = "Reports"
+					icon = "business-chart-bar-33"
+				}
+			}
+			preference
+			{
+				icon
+				{
+					style = solid
+					show = {space,section,component}
+				}
+			}
+		}
+		customize
+		{
+			new theme = 11
+			font = "poppins"
+			color options
+			{
+				color = "5"
+			}
+			logo
+			{
+				preference = "none"
+				placement = "left"
+			}
+		}
+	}
+	phone
+	{
+		customize
+		{
+			layout = twocolumn
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = chryslerpurple
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	tablet
+	{
+		customize
+		{
+			layout = slidingpane
+			font = "default"
+			style = "3"
+			color options
+			{
+				color = turquoise
+			}
+			logo
+			{
+				preference = "none"
+			}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+}
